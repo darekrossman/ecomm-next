@@ -36,7 +36,7 @@ const persistedQueryLink = createPersistedQueryLink({
 // const apolloClientConfig = {
 //   link: ApolloLink.from([persistedQueryLink, httpLink])
 // }
-const apolloClientConfig = {
+export const apolloClientConfig = {
   link: authLink.concat(httpLink)
 }
 

@@ -1,8 +1,9 @@
+'use client'
+
 import React from 'react'
-import gql from 'graphql-tag'
-import { withRouter } from 'next/router'
-import { useQuery } from '../lib/gql'
-import { ProductDetailFragment } from '../lib/fragments'
+import { useSearchParams } from 'next/navigation'
+import { gql, useQuery } from '@/lib/gql'
+import { ProductDetailFragment } from '@/lib/fragments'
 import { Grid } from '@64labs/ui'
 import ProductItem from './ProductItem'
 
@@ -21,13 +22,21 @@ const productsQuery = gql`
   ${ProductDetailFragment}
 `
 
-const ProductList = ({ router: { query }, onProductClick }) => {
-  const { data, loading, error, ...rest } = useQuery(productsQuery, {
+const ProductList = ({ onProductClick }) => {
+  const searchParams = useSearchParams()
+  const cgid = searchParams.get('cgid')
+
+  const { data, loading, error } = useQuery(productsQuery, {
     variables: {
-      categoryId: query.cgid
+      categoryId: cgid
     },
-    errorPolicy: 'all'
+    errorPolicy: 'all',
+    skip: !cgid
   })
+
+  if (!cgid) {
+    return <div>Please select a category</div>
+  }
 
   if (loading) {
     return <div>Loading.......</div>
@@ -70,4 +79,4 @@ const ProductList = ({ router: { query }, onProductClick }) => {
   )
 }
 
-export default withRouter(ProductList)
+export default ProductList

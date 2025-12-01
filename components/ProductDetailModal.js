@@ -1,8 +1,10 @@
+'use client'
+
 import React, { useState, useEffect } from 'react'
 import { KeyboardBackspace as BackArrow } from 'material-react-icons'
 import { Grid, Box, Button, Image } from '@64labs/ui'
 import Modal from './Modal'
-import useProductDetail from '../lib/hooks/useProductDetail'
+import useProductDetail from '@/lib/hooks/useProductDetail'
 import ProductBuyModule from './ProductBuyModule'
 
 const ProductDetailModal = ({ isOpen, close, selectedProductId }) => {
@@ -20,7 +22,7 @@ const ProductDetailModal = ({ isOpen, close, selectedProductId }) => {
         setCapturedProductId(selectedProductId)
       }, 400)
     }
-  }, [capturedProductId, selectedProductId])
+  }, [capturedProductId, selectedProductId, close])
 
   if (!data || !data.product) {
     return null
@@ -67,7 +69,7 @@ const ProductDetailModal = ({ isOpen, close, selectedProductId }) => {
             </Box>
 
             <Box ess={{ gridColumn: ['auto', '2 / 14'], gridRow: [2, 1] }}>
-              {selections.color.images.map(img => (
+              {selections?.color?.images?.map(img => (
                 <Image
                   key={img.src}
                   src={img.src}

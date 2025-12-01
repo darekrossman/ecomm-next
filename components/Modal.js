@@ -1,10 +1,12 @@
+'use client'
+
 import React from 'react'
 import { createPortal } from 'react-dom'
 import { useSpring, animated } from 'react-spring'
 import { Flex, Box } from '@64labs/ui'
 
 const ModalPortal = ({ isOpen, children }) => {
-  const { opacity, y } = useSpring({
+  const { opacity } = useSpring({
     opacity: isOpen ? 1 : 0,
     from: { opacity: 0 },
     config: {
@@ -44,6 +46,11 @@ const ModalPortal = ({ isOpen, children }) => {
 
 const Modal = ({ isOpen, children }) => {
   const [showModal, setShowModal] = React.useState(isOpen)
+  const [isBrowser, setIsBrowser] = React.useState(false)
+
+  React.useEffect(() => {
+    setIsBrowser(true)
+  }, [])
 
   React.useEffect(() => {
     if (showModal && !isOpen) {
@@ -53,7 +60,11 @@ const Modal = ({ isOpen, children }) => {
     } else if (isOpen && !showModal) {
       setShowModal(true)
     }
-  }, [isOpen])
+  }, [isOpen, showModal])
+
+  if (!isBrowser) {
+    return null
+  }
 
   return (
     showModal && createPortal(<ModalPortal children={children} isOpen={isOpen} />, document.body)

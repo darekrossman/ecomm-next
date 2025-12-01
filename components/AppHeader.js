@@ -1,10 +1,11 @@
+'use client'
+
 import React from 'react'
-import gql from 'graphql-tag'
 import Link from 'next/link'
 import { Menu as MenuIcon, ShoppingCart as CartIcon } from 'material-react-icons'
-import { Flex, Box, Grid, Text } from '@64labs/ui'
-import { useQuery } from '../lib/gql'
-import { RootCategoryFragment } from '../lib/fragments'
+import { Flex, Box, Text } from '@64labs/ui'
+import { gql, useQuery } from '@/lib/gql'
+import { RootCategoryFragment } from '@/lib/fragments'
 import Logo from './Logo'
 
 const categoriesQuery = gql`
@@ -19,7 +20,7 @@ const categoriesQuery = gql`
 const AppHeader = () => {
   const { data, loading } = useQuery(categoriesQuery, { variables: { id: 'root' } })
 
-  const { category } = data
+  const category = data?.category
 
   return (
     <>
@@ -73,11 +74,11 @@ const AppHeader = () => {
           }}
         >
           {category &&
-            category.categories.edges.map(({ node }) => (
+            category.categories?.edges?.map(({ node }) => (
               <Box as="li" key={node.id} ess={{ listStyle: 'none' }}>
                 <Text>
                   <Link href={`/products?cgid=${node.id}`}>
-                    <a>{node.name}</a>
+                    {node.name}
                   </Link>
                 </Text>
               </Box>

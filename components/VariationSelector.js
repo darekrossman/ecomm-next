@@ -1,9 +1,11 @@
+'use client'
+
 import React from 'react'
 import { Box, Flex, Button } from '@64labs/ui'
 
 const VariationSelector = ({ value, selected, disabled, onSelect, children }) => {
   return (
-    <Button onClick={() => !disabled && onSelect(value)} height={32} variant="wrapper">
+    <Button onClick={() => !disabled && onSelect && onSelect(value)} height={32} variant="wrapper">
       <Flex
         ess={{
           justifyContent: 'center',

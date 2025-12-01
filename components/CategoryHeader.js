@@ -1,10 +1,10 @@
+'use client'
+
 import React from 'react'
-import gql from 'graphql-tag'
-import { ApolloConsumer } from 'react-apollo'
-import { withRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { Box, Text, Flex, Grid, Button, Image } from '@64labs/ui'
-import { useQuery } from '../lib/gql'
+import { Box, Text, Flex } from '@64labs/ui'
+import { gql, useQuery } from '@/lib/gql'
 
 const categoryHeaderQuery = gql`
   query category($id: String!) {
@@ -23,12 +23,20 @@ const categoryHeaderQuery = gql`
   }
 `
 
-const CategoryHeader = ({ router: { query } }) => {
+const CategoryHeader = () => {
+  const searchParams = useSearchParams()
+  const cgid = searchParams.get('cgid')
+
   const { data, loading, error } = useQuery(categoryHeaderQuery, {
     variables: {
-      id: query.cgid
-    }
+      id: cgid
+    },
+    skip: !cgid
   })
+
+  if (!cgid) {
+    return null
+  }
 
   if (loading) {
     return <div>Loading.......</div>
@@ -38,7 +46,11 @@ const CategoryHeader = ({ router: { query } }) => {
     return <div>Error :(</div>
   }
 
-  const { category } = data
+  const { category } = data || {}
+
+  if (!category) {
+    return null
+  }
 
   return (
     <Box px={3} py={4}>
@@ -51,4 +63,4 @@ const CategoryHeader = ({ router: { query } }) => {
   )
 }
 
-export default withRouter(CategoryHeader)
+export default CategoryHeader

@@ -1,6 +1,7 @@
+'use client'
+
 import React from 'react'
-import { useSpring, useTrail, animated } from 'react-spring'
-import { Box, Flex, Text } from '@64labs/ui'
+import { Box, Flex } from '@64labs/ui'
 import AppHeader from './AppHeader'
 import NavDrawer from './NavDrawer'
 

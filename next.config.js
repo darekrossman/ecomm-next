@@ -1,14 +1,21 @@
-const path = require('path')
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Enable React Strict Mode for better development experience
+  reactStrictMode: true,
 
-module.exports = {
-  target: 'serverless',
-  webpack: (config, { buildId, dev, isServer, defaultLoaders }) => {
-    config.resolve = Object.assign({}, config.resolve, {
-      alias: Object.assign({}, config.resolve.alias, {
-        react: path.resolve(path.join(__dirname, './node_modules/react'))
-      })
-    })
+  // Transpile specific packages that may need it
+  transpilePackages: ['@64labs/ui', '@64labs/ess', '@64labs/hooks'],
 
+  // Configure compiler options for Emotion CSS-in-JS
+  compiler: {
+    emotion: true,
+  },
+
+  // Webpack configuration
+  webpack: (config, { isServer }) => {
+    // Add any necessary webpack customizations here
     return config
-  }
+  },
 }
+
+module.exports = nextConfig

@@ -1,0 +1,434 @@
+{
+  "generated_at": "2025-01-13T00:00:00.000Z",
+  "project": {
+    "name": "ecomm-next",
+    "nextjs_version": "^8.0.3",
+    "react_version": "^16.8.3",
+    "typescript": false
+  },
+  "metrics": {
+    "total_pages": 4,
+    "total_api_routes": 0,
+    "total_components": 14,
+    "total_hooks": 3,
+    "lines_of_code_estimate": 1800
+  },
+  "pages": [
+    {
+      "path": "pages/_app.js",
+      "route": null,
+      "type": "special",
+      "data_fetching": "gip",
+      "complexity": "complex",
+      "notes": "Custom App with getInitialProps via withApolloClient HOC, multiple providers (Apollo, Theme, Notifications), next/head usage, GlobalStyle injection"
+    },
+    {
+      "path": "pages/index.js",
+      "route": "/",
+      "type": "static",
+      "data_fetching": "none",
+      "complexity": "simple",
+      "notes": "Simple home page with Layout component"
+    },
+    {
+      "path": "pages/product.js",
+      "route": "/product",
+      "type": "static",
+      "data_fetching": "none",
+      "complexity": "medium",
+      "notes": "Uses withRouter HOC, reads query.id for product detail, client-side GraphQL data fetching"
+    },
+    {
+      "path": "pages/products.js",
+      "route": "/products",
+      "type": "static",
+      "data_fetching": "none",
+      "complexity": "medium",
+      "notes": "Uses withRouter HOC, reads query.cgid/pid, implements custom modal routing with Router.push/replace shallow navigation"
+    },
+    {
+      "path": "pages/cart.js",
+      "route": "/cart",
+      "type": "static",
+      "data_fetching": "none",
+      "complexity": "simple",
+      "notes": "Client-side GraphQL cart query, no Layout wrapper"
+    }
+  ],
+  "api_routes": [],
+  "special_files": {
+    "_app": {
+      "exists": true,
+      "path": "pages/_app.js",
+      "providers": [
+        "ApolloHooksProvider (react-apollo-hooks)",
+        "ApolloProvider (react-apollo)",
+        "ThemeProvider (emotion-theming)",
+        "NotificationsProvider (custom)"
+      ],
+      "customizations": [
+        "getInitialProps via withApolloClient HOC for SSR data hydration",
+        "next/head viewport meta tag",
+        "GlobalStyle component from emotion",
+        "Root component with auth query and conditional rendering",
+        "NotificationsContainer with portal to document.body"
+      ],
+      "complexity": "complex"
+    },
+    "_document": {
+      "exists": false
+    },
+    "404": {
+      "exists": false
+    },
+    "500": {
+      "exists": false
+    }
+  },
+  "patterns": {
+    "data_fetching": {
+      "getInitialProps_count": 1,
+      "getServerSideProps_count": 0,
+      "getStaticProps_count": 0,
+      "getStaticPaths_count": 0,
+      "client_side_only": true,
+      "locations": [
+        {
+          "file": "graphql/util/with-apollo-client.js",
+          "method": "getInitialProps",
+          "purpose": "SSR Apollo cache hydration",
+          "line": 10
+        }
+      ]
+    },
+    "routing": {
+      "withRouter_usage": [
+        "pages/product.js",
+        "pages/products.js",
+        "components/CategoryHeader.js",
+        "components/CategoryHero.js",
+        "components/CategoryProductList.js"
+      ],
+      "useRouter_usage": [],
+      "next_link_usage": [
+        "components/ProductItem.js",
+        "components/CategoryHero.js",
+        "components/AppHeader.js",
+        "components/NavDrawer.js"
+      ],
+      "programmatic_navigation": [
+        {
+          "file": "pages/products.js",
+          "pattern": "Router.push with shallow option for modal routing",
+          "line": 24
+        },
+        {
+          "file": "pages/products.js",
+          "pattern": "Router.replace for modal close",
+          "line": 18
+        }
+      ],
+      "query_string_routing": true,
+      "dynamic_routes": false
+    },
+    "head_management": {
+      "next_head_usage": [
+        {
+          "file": "pages/_app.js",
+          "purpose": "viewport meta tag",
+          "line": 111
+        },
+        {
+          "file": "graphql/util/with-apollo-client.js",
+          "purpose": "Head.rewind() for SSR cleanup",
+          "line": 41
+        }
+      ]
+    },
+    "styling": {
+      "solution": "Emotion",
+      "packages": [
+        "@emotion/core",
+        "@emotion/styled",
+        "emotion-theming",
+        "@emotion/babel-preset-css-prop"
+      ],
+      "global_styles": {
+        "file": "lib/theme.js",
+        "component": "GlobalStyle",
+        "method": "Global from @emotion/core"
+      }
+    },
+    "state_management": {
+      "solution": "Apollo Client",
+      "packages": [
+        "apollo-boost",
+        "apollo-client",
+        "apollo-cache-inmemory",
+        "react-apollo",
+        "react-apollo-hooks"
+      ],
+      "graphql_endpoint": "/graphql",
+      "ssr_enabled": true
+    }
+  },
+  "blockers": [
+    {
+      "severity": "high",
+      "type": "getInitialProps",
+      "description": "withApolloClient HOC uses getInitialProps for SSR data hydration. This blocks automatic static optimization and requires migration to App Router data fetching patterns.",
+      "file": "graphql/util/with-apollo-client.js",
+      "line": 10,
+      "migration_path": "Convert to Server Components with async data fetching or client-side Apollo with streaming SSR"
+    },
+    {
+      "severity": "high",
+      "type": "deprecated_next_app_container",
+      "description": "Uses deprecated Container import from next/app (removed in Next.js 9.0.4+)",
+      "file": "pages/_app.js",
+      "line": 5,
+      "migration_path": "Remove Container wrapper entirely"
+    },
+    {
+      "severity": "high",
+      "type": "outdated_nextjs_version",
+      "description": "Next.js 8.0.3 is severely outdated (current is 15.x). Requires incremental upgrade through major versions.",
+      "file": "package.json",
+      "line": 48,
+      "migration_path": "Upgrade through 9.x -> 10.x -> 11.x -> 12.x -> 13.x -> 14.x -> 15.x"
+    },
+    {
+      "severity": "medium",
+      "type": "deprecated_target_serverless",
+      "description": "next.config.js uses deprecated 'target: serverless' option (removed in Next.js 12+)",
+      "file": "next.config.js",
+      "line": 4,
+      "migration_path": "Remove target option; serverless is now default behavior"
+    },
+    {
+      "severity": "medium",
+      "type": "legacy_apollo_packages",
+      "description": "Uses legacy Apollo Client packages (apollo-boost, react-apollo-hooks) that are deprecated",
+      "file": "package.json",
+      "migration_path": "Upgrade to @apollo/client 3.x unified package"
+    },
+    {
+      "severity": "medium",
+      "type": "head_rewind",
+      "description": "Uses deprecated Head.rewind() API for SSR head side effect cleanup",
+      "file": "graphql/util/with-apollo-client.js",
+      "line": 41,
+      "migration_path": "Migrate to Metadata API in App Router"
+    },
+    {
+      "severity": "low",
+      "type": "process_browser_check",
+      "description": "Uses process.browser which is deprecated in favor of typeof window !== 'undefined'",
+      "file": "graphql/util/with-apollo-client.js",
+      "line": 21,
+      "migration_path": "Replace with typeof window check or use Server/Client Component boundary"
+    }
+  ],
+  "dependencies": {
+    "state_management": [
+      "@apollo/react-hooks",
+      "apollo-boost",
+      "apollo-cache-inmemory",
+      "apollo-client",
+      "apollo-link-batch-http",
+      "apollo-link-context",
+      "apollo-link-dedup",
+      "apollo-link-http",
+      "apollo-link-persisted-queries",
+      "react-apollo",
+      "react-apollo-hooks"
+    ],
+    "styling": [
+      "@emotion/babel-preset-css-prop",
+      "@emotion/core",
+      "@emotion/styled",
+      "emotion-theming",
+      "styled-system"
+    ],
+    "data_fetching": [
+      "isomorphic-unfetch",
+      "graphql",
+      "graphql-tag"
+    ],
+    "ui_libraries": [
+      "@64labs/ess",
+      "@64labs/hooks",
+      "@64labs/ui",
+      "material-react-icons",
+      "react-spring"
+    ],
+    "server": [
+      "express",
+      "micro",
+      "micro-cors",
+      "apollo-server",
+      "apollo-server-micro",
+      "apollo-datasource-rest"
+    ],
+    "utilities": [
+      "lodash",
+      "deepmerge",
+      "cheerio",
+      "dataloader"
+    ]
+  },
+  "configuration": {
+    "next_config": {
+      "target": "serverless",
+      "webpack_customizations": [
+        "React alias to local node_modules (deduplication)"
+      ]
+    },
+    "babel_config": {
+      "presets": [
+        "next/babel",
+        "@emotion/babel-preset-css-prop"
+      ],
+      "plugins": []
+    },
+    "deployment": {
+      "platform": "Vercel (now.sh)",
+      "config_file": "now.json",
+      "custom_server": true,
+      "server_file": "server.js",
+      "graphql_serverless_function": "graphql.js"
+    }
+  },
+  "complexity": {
+    "rating": "high",
+    "score": 65,
+    "drivers": [
+      "Severely outdated Next.js version (8.0.3) requires multi-step upgrade",
+      "getInitialProps in _app via withApolloClient HOC blocks static optimization",
+      "Heavy Apollo Client SSR integration needs complete rewrite for App Router",
+      "Multiple deprecated APIs (Container, target:serverless, Head.rewind, process.browser)",
+      "Legacy Apollo packages require major version upgrade",
+      "Custom server.js with Express",
+      "Emotion styling with deprecated emotion-theming package",
+      "Complex modal routing with shallow navigation in products page",
+      "Serverless GraphQL function deployment"
+    ],
+    "simplifying_factors": [
+      "Small page count (4 pages)",
+      "No dynamic file-system routes ([slug], [...path])",
+      "No getServerSideProps/getStaticProps usage",
+      "No pages/api routes (GraphQL is separate serverless function)",
+      "No _document.js customization",
+      "No error pages (404, 500)",
+      "Client-side data fetching can remain largely unchanged"
+    ]
+  },
+  "migration_recommendations": {
+    "phase_1_upgrade_nextjs": {
+      "description": "Incrementally upgrade Next.js through major versions",
+      "steps": [
+        "Upgrade to Next.js 9.x - remove Container, update Apollo SSR",
+        "Upgrade to Next.js 10.x - add next/image support",
+        "Upgrade to Next.js 11.x - update webpack 5",
+        "Upgrade to Next.js 12.x - remove target:serverless",
+        "Upgrade to Next.js 13.x - prepare for App Router",
+        "Upgrade to Next.js 14.x/15.x - migrate to App Router"
+      ],
+      "estimated_effort": "high"
+    },
+    "phase_2_modernize_dependencies": {
+      "description": "Update deprecated packages before App Router migration",
+      "steps": [
+        "Upgrade @apollo/client to 3.x",
+        "Upgrade @emotion packages to latest",
+        "Remove deprecated react-apollo-hooks",
+        "Update withRouter to useRouter hook"
+      ],
+      "estimated_effort": "medium"
+    },
+    "phase_3_app_router_migration": {
+      "description": "Migrate to App Router",
+      "steps": [
+        "Create app/ directory with root layout",
+        "Migrate _app.js providers to root layout",
+        "Convert pages to Server Components where possible",
+        "Add 'use client' to components using hooks/state",
+        "Migrate next/head to Metadata API",
+        "Convert withRouter components to useRouter or useParams",
+        "Update next/link (no <a> child needed)",
+        "Move GraphQL serverless function to app/graphql/route.ts"
+      ],
+      "estimated_effort": "high"
+    }
+  },
+  "files_requiring_migration": {
+    "critical": [
+      {
+        "file": "pages/_app.js",
+        "reason": "Custom App with providers, getInitialProps inheritance",
+        "target": "app/layout.tsx"
+      },
+      {
+        "file": "graphql/util/with-apollo-client.js",
+        "reason": "getInitialProps HOC pattern incompatible with App Router",
+        "target": "Remove HOC, use client-side Apollo or RSC patterns"
+      }
+    ],
+    "high": [
+      {
+        "file": "pages/product.js",
+        "reason": "withRouter HOC usage",
+        "target": "app/product/page.tsx with useSearchParams"
+      },
+      {
+        "file": "pages/products.js",
+        "reason": "withRouter HOC, complex modal routing",
+        "target": "app/products/page.tsx with parallel routes for modal"
+      }
+    ],
+    "medium": [
+      {
+        "file": "pages/index.js",
+        "reason": "Simple page migration",
+        "target": "app/page.tsx"
+      },
+      {
+        "file": "pages/cart.js",
+        "reason": "Simple page migration",
+        "target": "app/cart/page.tsx"
+      },
+      {
+        "file": "components/CategoryHeader.js",
+        "reason": "withRouter HOC",
+        "target": "useSearchParams hook"
+      },
+      {
+        "file": "components/CategoryHero.js",
+        "reason": "withRouter HOC",
+        "target": "useSearchParams hook"
+      },
+      {
+        "file": "components/CategoryProductList.js",
+        "reason": "withRouter HOC",
+        "target": "useSearchParams hook"
+      }
+    ],
+    "low": [
+      {
+        "file": "components/ProductItem.js",
+        "reason": "next/link with prefetch prop",
+        "target": "Update Link API"
+      },
+      {
+        "file": "components/AppHeader.js",
+        "reason": "next/link usage",
+        "target": "Update Link API"
+      },
+      {
+        "file": "components/NavDrawer.js",
+        "reason": "next/link usage",
+        "target": "Update Link API"
+      }
+    ]
+  }
+}

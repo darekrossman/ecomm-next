@@ -1,14 +1,9 @@
-const path = require('path')
-
-module.exports = {
-  target: 'serverless',
-  webpack: (config, { buildId, dev, isServer, defaultLoaders }) => {
-    config.resolve = Object.assign({}, config.resolve, {
-      alias: Object.assign({}, config.resolve.alias, {
-        react: path.resolve(path.join(__dirname, './node_modules/react'))
-      })
-    })
-
-    return config
-  }
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Configure Turbopack (default bundler in Next.js 16)
+  // The React deduplication alias from webpack is no longer needed with
+  // modern npm dependency resolution and Turbopack's built-in handling
+  turbopack: {}
 }
+
+module.exports = nextConfig

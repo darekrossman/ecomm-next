@@ -1,10 +1,7 @@
 import React from 'react'
-import gql from 'graphql-tag'
-import { ApolloConsumer } from 'react-apollo'
 import { withRouter } from 'next/router'
-import Link from 'next/link'
-import { Box, Text, Flex, Grid, Button, Image } from '@64labs/ui'
-import { useQuery } from '../lib/gql'
+import { Box, Text, Flex } from '@64labs/ui'
+import { useQuery, gql } from '../lib/gql'
 
 const categoryHeaderQuery = gql`
   query category($id: String!) {

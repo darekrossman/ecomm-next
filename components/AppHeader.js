@@ -19,7 +19,8 @@ const categoriesQuery = gql`
 const AppHeader = () => {
   const { data, loading } = useQuery(categoriesQuery, { variables: { id: 'root' } })
 
-  const { category } = data
+  // Safely destructure category - data may be undefined during initial load
+  const category = data?.category
 
   return (
     <>

@@ -1,70 +1,48 @@
-import { ApolloClient } from 'apollo-client'
-import { createHttpLink } from 'apollo-link-http'
-import { setContext } from 'apollo-link-context'
-import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory'
-import gql from 'graphql-tag'
+import { ApolloClient, InMemoryCache, gql, makeVar } from '@apollo/client'
 import fetch from 'isomorphic-unfetch'
 
 let apolloClient = null
 
 // Polyfill fetch() on the server (used by apollo-client)
-if (!process.browser) {
+if (typeof window === 'undefined') {
   global.fetch = fetch
 }
 
-const cache = new InMemoryCache({
-  dataIdFromObject: object => {
-    if (object.__typename === 'VariationAttribute') {
-      return `${object.__typename}:${object.key}`
-    }
-    return defaultDataIdFromObject(object)
-  },
-  cacheRedirects: {
-    Query: {
-      getCategory: (_, args, { getCacheKey }) => {
-        return getCacheKey({ __typename: 'Category', id: args.id })
+// Reactive variable for selected product
+export const selectedProductIdVar = makeVar(null)
+
+function createCache() {
+  return new InMemoryCache({
+    typePolicies: {
+      VariationAttribute: {
+        keyFields: ['key']
       },
-      getProduct: (_, args, { getCacheKey }) => {
-        return getCacheKey({ __typename: 'Product', id: args.id })
-      }
-    },
-    Product: {
-      category: (_, args) => {
-        console.log('WTF', _, args)
-        // return getCacheKey({ __typename: 'Category', id: args.id })
-      }
-    },
-    Category: {
-      id: () => console.log('id'),
-      name: () => console.log('id'),
-      parentCategory: _ => {
-        console.log('SHIT!', _)
+      Query: {
+        fields: {
+          selectedProductId: {
+            read() {
+              return selectedProductIdVar()
+            }
+          }
+        }
       }
     }
-  }
-})
+  })
+}
 
 function create(config = {}, initialState) {
+  const cache = createCache()
+  
   const client = new ApolloClient({
-    connectToDevTools: process.browser,
-    ssrMode: !process.browser,
+    connectToDevTools: typeof window !== 'undefined',
+    ssrMode: typeof window === 'undefined',
     cache: cache.restore(initialState || {}),
-    queryDeduplication: true,
-    resolvers: {
-      Mutation: {
-        setSelectedProductId: (_root, variables, { cache, getCacheKey }) => {
-          cache.writeData({ data: { selectedProductId: variables.id } })
-          return null
-        }
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: 'cache-and-network'
       }
     },
     ...config
-  })
-
-  cache.writeData({
-    data: {
-      selectedProductId: null
-    }
   })
 
   return client
@@ -73,7 +51,7 @@ function create(config = {}, initialState) {
 export default function initApollo(clientConfig, initialState) {
   // Make sure to create a new client for every server-side request so that data
   // isn't shared between connections (which would be bad)
-  if (!process.browser) {
+  if (typeof window === 'undefined') {
     return create(clientConfig, initialState)
   }
 

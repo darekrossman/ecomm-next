@@ -1,6 +1,6 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { ApolloConsumer } from 'react-apollo'
+import { useApolloClient } from '@apollo/client'
 import { withRouter } from 'next/router'
 import Link from 'next/link'
 import { Box, Text, Flex, Grid, Button, Image } from '@64labs/ui'

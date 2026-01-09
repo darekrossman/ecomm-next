@@ -1,9 +1,6 @@
-import { ApolloClient } from 'apollo-client'
-import { createHttpLink } from 'apollo-link-http'
-import { BatchHttpLink } from 'apollo-link-batch-http'
-import { setContext } from 'apollo-link-context'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { createPersistedQueryLink } from 'apollo-link-persisted-queries'
+import { ApolloClient, InMemoryCache, HttpLink, from } from '@apollo/client'
+import { setContext } from '@apollo/client/link/context'
+import { BatchHttpLink } from '@apollo/client/link/batch-http'
 import withApolloClient from './util/with-apollo-client'
 
 const httpLink = new BatchHttpLink({
@@ -12,7 +9,6 @@ const httpLink = new BatchHttpLink({
       ? 'https://ecomm-next.now.sh/graphql'
       : 'http://localhost:3000/graphql',
   credentials: 'same-origin'
-  // useGETForQueries: true
 })
 
 const authLink = setContext((_, { headers }) => {
@@ -29,13 +25,6 @@ const authLink = setContext((_, { headers }) => {
   return { headers }
 })
 
-const persistedQueryLink = createPersistedQueryLink({
-  useGETForHashedQueries: true
-})
-
-// const apolloClientConfig = {
-//   link: ApolloLink.from([persistedQueryLink, httpLink])
-// }
 const apolloClientConfig = {
   link: authLink.concat(httpLink)
 }

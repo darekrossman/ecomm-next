@@ -1,12 +1,10 @@
 import 'intersection-observer'
 import React, { useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import gql from 'graphql-tag'
-import App, { Container } from 'next/app'
+import App from 'next/app'
 import Head from 'next/head'
-import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks'
-import { ApolloProvider } from 'react-apollo'
-import { ThemeProvider } from 'emotion-theming'
+import { ApolloProvider, gql } from '@apollo/client'
+import { ThemeProvider } from '@emotion/react'
 import { useTransition, animated } from 'react-spring'
 import { Box } from '@64labs/ui'
 import { useQuery } from '../lib/gql'
@@ -102,28 +100,25 @@ class AppWrapper extends App {
   render() {
     const { Component, pageProps, apolloClient } = this.props
     return (
-      <Container>
-        <ApolloHooksProvider client={apolloClient}>
-          <ApolloProvider client={apolloClient}>
-            <ThemeProvider theme={theme}>
-              <NotificationsProvider>
-                <>
-                  <Head>
-                    <meta
-                      name="viewport"
-                      content="initial-scale=1.0, width=device-width"
-                      key="viewport"
-                    />
-                  </Head>
-                  <GlobalStyle />
-                  <Root Component={Component} {...pageProps} />
-                  <NotificationsContainer />
-                </>
-              </NotificationsProvider>
-            </ThemeProvider>
-          </ApolloProvider>
-        </ApolloHooksProvider>
-      </Container>
+      // Apollo Client 3.x only needs a single ApolloProvider
+      <ApolloProvider client={apolloClient}>
+        <ThemeProvider theme={theme}>
+          <NotificationsProvider>
+            <>
+              <Head>
+                <meta
+                  name="viewport"
+                  content="initial-scale=1.0, width=device-width"
+                  key="viewport"
+                />
+              </Head>
+              <GlobalStyle />
+              <Root Component={Component} {...pageProps} />
+              <NotificationsContainer />
+            </>
+          </NotificationsProvider>
+        </ThemeProvider>
+      </ApolloProvider>
     )
   }
 }

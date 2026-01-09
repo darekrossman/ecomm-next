@@ -3,17 +3,20 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "overrides": {
+    "@emotion/core": "npm:@emotion/react@^11.14.0",
+    "emotion-theming": "npm:@emotion/react@^11.14.0"
+  },
   "dependencies": {
-    "@babel/core": "^7.24.0",
     "@64labs/ess": "^1.0.20",
     "@64labs/hooks": "^1.0.20",
     "@64labs/ui": "^1.0.20",
     "@apollo/client": "^3.12.9",
     "@apollo/server": "^4.11.3",
     "@as-integrations/next": "^3.1.0",
-    "@emotion/babel-preset-css-prop": "^10.0.7",
-    "@emotion/core": "^10.0.9",
-    "@emotion/styled": "^10.0.9",
+    "@babel/core": "^7.24.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "apollo-datasource-rest": "^0.3.2",
     "casual": "^1.6.0",
     "cheerio": "^1.0.0-rc.2",
@@ -22,7 +25,6 @@
     "deep-equal": "^1.0.1",
     "deepmerge": "^3.2.0",
     "emotion-icons": "^1.0.0",
-    "emotion-theming": "^10.0.9",
     "express": "^4.16.4",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
@@ -48,6 +50,7 @@
     "use-measure": "^0.2.2"
   },
   "scripts": {
+    "postinstall": "node scripts/emotion-compat.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"

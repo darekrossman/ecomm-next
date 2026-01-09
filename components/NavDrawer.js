@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import gql from 'graphql-tag'
 import Link from 'next/link'
@@ -138,6 +140,10 @@ const NavDrawer = () => {
       type: 'next',
       payload: { item, bounds }
     })
+  }
+
+  if (loading || !data?.root) {
+    return null
   }
 
   return (

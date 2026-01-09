@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import gql from 'graphql-tag'
 import Link from 'next/link'
@@ -19,7 +21,7 @@ const categoriesQuery = gql`
 const AppHeader = () => {
   const { data, loading } = useQuery(categoriesQuery, { variables: { id: 'root' } })
 
-  const { category } = data
+  const category = data?.category
 
   return (
     <>

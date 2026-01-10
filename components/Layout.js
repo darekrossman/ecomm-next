@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { useSpring, useTrail, animated } from 'react-spring'
 import { Box, Flex, Text } from '@64labs/ui'

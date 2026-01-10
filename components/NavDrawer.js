@@ -152,7 +152,7 @@ const NavDrawer = () => {
         css={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, overflow: 'auto' }}
       >
         <animated.div style={level1Props}>
-          {data.root.categories.edges.map(({ node: item }) => (
+          {data?.root?.categories?.edges?.map(({ node: item }) => (
             <Box
               key={item.id}
               ref={ref => ref && refMap.set(item, ref)}

@@ -1,8 +1,9 @@
-import React from 'react'
-import { Box, Text } from '@64labs/ui'
+'use client'
+
+import { Text } from '@64labs/ui'
 import Layout from '../components/Layout'
 
-const Home = () => {
+export default function HomeContent() {
   return (
     <Layout>
       <Text p={4} variant="h1">
@@ -11,5 +12,3 @@ const Home = () => {
     </Layout>
   )
 }
-
-export default Home

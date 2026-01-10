@@ -79,7 +79,7 @@ const AppHeader = () => {
               <Box as="li" key={node.id} ess={{ listStyle: 'none' }}>
                 <Text>
                   <Link href={`/products?cgid=${node.id}`}>
-                    <a>{node.name}</a>
+                    {node.name}
                   </Link>
                 </Text>
               </Box>

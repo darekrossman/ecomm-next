@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
 import { useESS } from '@64labs/ess'
@@ -23,8 +25,7 @@ const ProductItem = ({ product, start, span, col, onClick, router }) => {
         }
       }}
     >
-      <Link href={`/product?id=${product.id}`} prefetch>
-        <a onClick={e => onClick(e, product)}>
+      <Link href={`/product?id=${product.id}`} prefetch={true} onClick={e => onClick(e, product)}>
           <Box>
             <Image src={images && images[0].src} width={1335} height={1780} fluid />
           </Box>
@@ -33,7 +34,6 @@ const ProductItem = ({ product, start, span, col, onClick, router }) => {
             <Text ess={{ flex: '1 1 0', textTransform: 'capitalize', mb: 1 }}>{product.name}</Text>
             <Text>{product.price}</Text>
           </Flex>
-        </a>
       </Link>
     </Box>
   )

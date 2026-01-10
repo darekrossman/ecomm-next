@@ -55,7 +55,7 @@ const CategoryHero = () => {
       {categories.edges.map(({ node }) => (
         <Text as="h3" fontWeight="normal" py={1} key={node.name}>
           <Link href={`/products?cgid=${node.id}`}>
-            <a>{node.name}</a>
+            {node.name}
           </Link>
         </Text>
       ))}

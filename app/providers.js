@@ -66,7 +66,9 @@ function createApolloClient() {
   return new ApolloClient({
     link: from([authLink, httpLink]),
     cache,
-    connectToDevTools: true,
+    devtools: {
+      enabled: true
+    },
     defaultOptions: {
       watchQuery: {
         fetchPolicy: 'cache-and-network'

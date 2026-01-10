@@ -1,5 +1,7 @@
+'use client'
+
 import React from 'react'
-import { withRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 import { Box, Text, Flex } from '@64labs/ui'
 import { useQuery, gql } from '../lib/gql'
 
@@ -20,10 +22,13 @@ const categoryHeaderQuery = gql`
   }
 `
 
-const CategoryHeader = ({ router: { query } }) => {
+const CategoryHeader = () => {
+  const searchParams = useSearchParams()
+  const cgid = searchParams.get('cgid')
+  
   const { data, loading, error } = useQuery(categoryHeaderQuery, {
     variables: {
-      id: query.cgid
+      id: cgid
     }
   })
 
@@ -48,4 +53,4 @@ const CategoryHeader = ({ router: { query } }) => {
   )
 }
 
-export default withRouter(CategoryHeader)
+export default CategoryHeader

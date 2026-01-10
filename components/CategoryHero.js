@@ -1,6 +1,8 @@
+'use client'
+
 import React from 'react'
 import gql from 'graphql-tag'
-import { withRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Box, Text, Flex, Grid, Button, Image } from '@64labs/ui'
 import { useQuery } from '../lib/gql'
@@ -22,10 +24,13 @@ const categoryProductListQuery = gql`
   }
 `
 
-const CategoryHero = ({ router: { query } }) => {
+const CategoryHero = () => {
+  const searchParams = useSearchParams()
+  const cgid = searchParams.get('cgid')
+  
   const { data, loading, error } = useQuery(categoryProductListQuery, {
     variables: {
-      id: query.cgid
+      id: cgid
     }
   })
 
@@ -49,7 +54,7 @@ const CategoryHero = ({ router: { query } }) => {
       {categories.edges.map(({ node }) => (
         <Text as="h3" fontWeight="normal" py={1} key={node.name}>
           <Link href={`/products?cgid=${node.id}`}>
-            <a>{node.name}</a>
+            {node.name}
           </Link>
         </Text>
       ))}
@@ -57,4 +62,4 @@ const CategoryHero = ({ router: { query } }) => {
   )
 }
 
-export default withRouter(CategoryHero)
+export default CategoryHero

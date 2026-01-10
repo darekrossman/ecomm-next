@@ -1,14 +1,14 @@
 const { send } = require('micro')
 const { ApolloServer } = require('apollo-server-micro')
 const cors = require('micro-cors')({ allowMethods: ['PUT', 'POST', 'GET', 'OPTIONS'] })
-const createServer = require('./graphql/server')
+const createServer = require('../graphql/server')
 
 const plugins = {
-  'gql-source-ocapi': require('./graphql/plugins/gql-source-ocapi')
+  'gql-source-ocapi': require('../graphql/plugins/gql-source-ocapi')
 }
 
 const server = createServer(ApolloServer, plugins)
-const handler = server.createHandler()
+const handler = server.createHandler({ path: '/api/graphql' })
 
 module.exports = cors((req, res) => {
   if (req.method === 'OPTIONS') {

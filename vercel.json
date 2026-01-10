@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "name": "ecomm-next",
+  "rewrites": [
+    {
+      "source": "/graphql",
+      "destination": "/api/graphql"
+    }
+  ]
+}

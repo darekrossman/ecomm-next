@@ -1,5 +1,5 @@
 const gql = require('graphql-tag')
-const { makeExecutableSchema } = require('graphql-tools')
+const { makeExecutableSchema } = require('@graphql-tools/schema')
 const { merge } = require('lodash')
 const PageInfo = require('./PageInfo.schema')
 const Product = require('./Product.schema')

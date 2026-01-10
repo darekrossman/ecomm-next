@@ -1,7 +1,7 @@
 {
-  "last_failure": "2026-01-10T00:02:03.083453831Z",
-  "failure_count": 4,
-  "backoff_until": "2026-01-10T00:07:03.083454172Z",
+  "last_failure": "2026-01-10T00:07:05.824828282Z",
+  "failure_count": 5,
+  "backoff_until": "2026-01-10T00:17:05.824828536Z",
   "needs_manual_sync": true,
-  "failure_reason": "git pull failed in worktree: exit status 128\nFrom https://github.com/darekrossman/ecomm-next\n * branch            beads-metadata -\u003e FETCH_HEAD\n   24ada47..af455ce  beads-metadata -\u003e origin/beads-metadata\nhint: You have divergent branches and need to specify how to reconcile them.\nhint: You can do so by running one of the following commands sometime before\nhint: your next pull:\nhint:\nhint:   git config pull.rebase false  # merge\nhint:   git config pull.rebase true   # rebase\nhint:   git config pull.ff only       # fast-forward only\nhint:\nhint: You can replace \"git config\" with \"git config --global\" to set a default\nhint: preference for all repositories. You can also pass --rebase, --no-rebase,\nhint: or --ff-only on the command line to override the configured default per\nhint: invocation.\nfatal: Need to specify how to reconcile divergent branches.\n"
+  "failure_reason": "git pull failed in worktree: exit status 128\nFrom https://github.com/darekrossman/ecomm-next\n * branch            beads-metadata -\u003e FETCH_HEAD\nhint: You have divergent branches and need to specify how to reconcile them.\nhint: You can do so by running one of the following commands sometime before\nhint: your next pull:\nhint:\nhint:   git config pull.rebase false  # merge\nhint:   git config pull.rebase true   # rebase\nhint:   git config pull.ff only       # fast-forward only\nhint:\nhint: You can replace \"git config\" with \"git config --global\" to set a default\nhint: preference for all repositories. You can also pass --rebase, --no-rebase,\nhint: or --ff-only on the command line to override the configured default per\nhint: invocation.\nfatal: Need to specify how to reconcile divergent branches.\n"
 }

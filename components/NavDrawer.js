@@ -1,7 +1,8 @@
+'use client'
+
 import React from 'react'
 import gql from 'graphql-tag'
-import Link from 'next/link'
-import { useSpring, useTrail, animated } from 'react-spring'
+import { useSpring, animated } from 'react-spring'
 import { Box, Text } from '@64labs/ui'
 import { useQuery } from '../lib/gql'
 import { RootCategoryFragment } from '../lib/fragments'

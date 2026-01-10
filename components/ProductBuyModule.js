@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { Button, Box, Flex, Text, Image } from '@64labs/ui'
 import { useCart } from '../lib/hooks/useCart'

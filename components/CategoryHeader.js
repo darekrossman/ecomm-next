@@ -1,9 +1,9 @@
+'use client'
+
 import React from 'react'
 import gql from 'graphql-tag'
-import { useApolloClient } from '@apollo/client'
-import { withRouter } from 'next/router'
-import Link from 'next/link'
-import { Box, Text, Flex, Grid, Button, Image } from '@64labs/ui'
+import { useSearchParams } from 'next/navigation'
+import { Box, Text, Flex } from '@64labs/ui'
 import { useQuery } from '../lib/gql'
 
 const categoryHeaderQuery = gql`
@@ -23,10 +23,13 @@ const categoryHeaderQuery = gql`
   }
 `
 
-const CategoryHeader = ({ router: { query } }) => {
+export default function CategoryHeader() {
+  const searchParams = useSearchParams()
+  const cgid = searchParams.get('cgid')
+
   const { data, loading, error } = useQuery(categoryHeaderQuery, {
     variables: {
-      id: query.cgid
+      id: cgid
     }
   })
 
@@ -50,5 +53,3 @@ const CategoryHeader = ({ router: { query } }) => {
     </Box>
   )
 }
-
-export default withRouter(CategoryHeader)

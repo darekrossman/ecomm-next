@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect } from 'react'
 import { KeyboardBackspace as BackArrow } from 'material-react-icons'
 import { Grid, Box, Button, Image } from '@64labs/ui'

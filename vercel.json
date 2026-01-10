@@ -3,16 +3,13 @@
   "builds": [
     {
       "src": "graphql.js",
-      "use": "@now/node"
-    },
-    { "src": "next.config.js", "use": "@now/next" }
+      "use": "@vercel/node"
+    }
   ],
   "routes": [
     {
       "src": "/graphql",
       "dest": "graphql.js"
     }
-  ],
-  "name": "ecomm-next",
-  "alias": "ecomm-next"
+  ]
 }
